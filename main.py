@@ -1,6 +1,9 @@
 from Table import Table
 import json
+import random
+
 #HashtagForBob
+
 PATH = "Team_stats.json"
 
 class League():
@@ -33,8 +36,23 @@ class League():
         self.teams = self.cleaned_data
 
     def match(self, team1, team2):
-        print(f"{team1["name"]} vs {team2["name"]}")
+        
+        team1_goals = 0
+        team2_goals = 0
+        
+        for i in range(90):
+            
+            team1_attempt = random.random()
+            if team1["attack"] - team2["defence"] >= team1_attempt:
+                team1_goals += 1
+            
+            team2_attempt = random.random()
+            if team2["attack"] - team1["defence"] >= team2_attempt:
+                team2_goals += 1
 
+        print(f"{team1["name"]} {team1_goals} : {team2_goals} {team2["name"]}")
+    
+    
     def play(self):
         amount_of_games = int((len(self.teams) * (len(self.teams))))
 
