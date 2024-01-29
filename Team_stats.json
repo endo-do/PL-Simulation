@@ -1,5 +1,6 @@
 {
     "Liverpool": {
+        "name": "Liverpool",
         "games_played": 21,
         "goals_scored": 47,
         "goals_conceded": 18,
@@ -7,6 +8,7 @@
         "attack": 0.02486772486772487
     },
     "Man City": {
+        "name": "Man City",
         "games_played": 20,
         "goals_scored": 48,
         "goals_conceded": 23,
@@ -14,6 +16,7 @@
         "attack": 0.026666666666666665
     },
     "Arsenal": {
+        "name": "Arsenal",
         "games_played": 21,
         "goals_scored": 42,
         "goals_conceded": 20,
@@ -21,6 +24,7 @@
         "attack": 0.022222222222222223
     },
     "Aston Villa": {
+        "name": "Aston Villa",
         "games_played": 21,
         "goals_scored": 43,
         "goals_conceded": 27,
@@ -28,6 +32,7 @@
         "attack": 0.022751322751322748
     },
     "Tottenham": {
+        "name": "Tottenham",
         "games_played": 21,
         "goals_scored": 44,
         "goals_conceded": 31,
@@ -35,6 +40,7 @@
         "attack": 0.023280423280423283
     },
     "West Ham": {
+        "name": "West Ham",
         "games_played": 21,
         "goals_scored": 35,
         "goals_conceded": 32,
@@ -42,6 +48,7 @@
         "attack": 0.01851851851851852
     },
     "Brighton": {
+        "name": "Brighton",
         "games_played": 21,
         "goals_scored": 38,
         "goals_conceded": 33,
@@ -49,6 +56,7 @@
         "attack": 0.020105820105820106
     },
     "ManUnited": {
+        "name": "ManUnited",
         "games_played": 21,
         "goals_scored": 24,
         "goals_conceded": 29,
@@ -56,6 +64,7 @@
         "attack": 0.012698412698412698
     },
     "Chelsea": {
+        "name": "Chelsea",
         "games_played": 21,
         "goals_scored": 35,
         "goals_conceded": 31,
@@ -63,6 +72,7 @@
         "attack": 0.01851851851851852
     },
     "Newcastle": {
+        "name": "Newcastle",
         "games_played": 21,
         "goals_scored": 41,
         "goals_conceded": 32,
@@ -70,6 +80,7 @@
         "attack": 0.02169312169312169
     },
     "Wolverhamton": {
+        "name": "Wolverhamton",
         "games_played": 21,
         "goals_scored": 30,
         "goals_conceded": 31,
@@ -77,6 +88,7 @@
         "attack": 0.015873015873015872
     },
     "Bournemouth": {
+        "name": "Bournemouth",
         "games_played": 20,
         "goals_scored": 28,
         "goals_conceded": 39,
@@ -84,6 +96,7 @@
         "attack": 0.015555555555555555
     },
     "FC Fulham": {
+        "name": "FC Fulham",
         "games_played": 21,
         "goals_scored": 28,
         "goals_conceded": 36,
@@ -91,6 +104,7 @@
         "attack": 0.014814814814814814
     },
     "Brentford": {
+        "name": "Brentford",
         "games_played": 20,
         "goals_scored": 29,
         "goals_conceded": 33,
@@ -98,6 +112,7 @@
         "attack": 0.01611111111111111
     },
     "Crstal Palace": {
+        "name": "Crystal Palace",
         "games_played": 21,
         "goals_scored": 22,
         "goals_conceded": 34,
@@ -105,6 +120,7 @@
         "attack": 0.011640211640211642
     },
     "Nottingham": {
+        "name": "Nottingham",
         "games_played": 21,
         "goals_scored": 26,
         "goals_conceded": 38,
@@ -112,6 +128,7 @@
         "attack": 0.013756613756613757
     },
     "Everton": {
+        "name": "Everton",
         "games_played": 21,
         "goals_scored": 24,
         "goals_conceded": 28,
@@ -119,6 +136,7 @@
         "attack": 0.012698412698412698
     },
     "Luton Town": {
+        "name": "Luton Town",
         "games_played": 20,
         "goals_scored": 24,
         "goals_conceded": 38,
@@ -126,6 +144,7 @@
         "attack": 0.013333333333333332
     },
     "Burnley": {
+        "name": "Burnley",
         "games_played": 21,
         "goals_scored": 21,
         "goals_conceded": 42,
@@ -133,6 +152,7 @@
         "attack": 0.011111111111111112
     },
     "Sheff Utd": {
+        "name": "Sheff Utd",
         "games_played": 21,
         "goals_scored": 17,
         "goals_conceded": 51,

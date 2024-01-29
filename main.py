@@ -6,7 +6,7 @@ PATH = "Team_stats.json"
 class League():
     def __init__(self, data_path):
         self.data_path = data_path
-        self.data = {}
+        self.teams = {}
 
     def update_data(self):
         
@@ -30,5 +30,23 @@ class League():
         with open(PATH, 'w') as f:
             json.dump(self.cleaned_data, f, indent=4)
 
+        self.teams = self.cleaned_data
 
-l1 = League(PATH)
+    def match(self, team1, team2):
+        print(f"{team1["name"]} vs {team2["name"]}")
+
+    def play(self):
+        amount_of_games = int((len(self.teams) * (len(self.teams))))
+
+        team_names = [team for team in self.teams.keys()]
+        for i in range (amount_of_games):
+            t1 = i // 20
+            t2 = i % 20
+            if t1 != t2:
+                self.match(self.teams[team_names[t1]], self.teams[team_names[t2]])
+            
+
+
+PremierLeague= League(PATH)
+PremierLeague.update_data()
+PremierLeague.play()
