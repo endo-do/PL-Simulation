@@ -1,7 +1,7 @@
 from Table import Table
 import json
 
-PATH = "Teams.json"
+PATH = "Team_stats.json"
 
 class Team():
     def __init__(self, attack, defence):
