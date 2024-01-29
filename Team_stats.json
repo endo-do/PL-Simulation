@@ -1,123 +1,142 @@
-
-{   
-    "t1": {
-        "name": "Liverpool",
-        "games_played":21,
-        "goals_scored":47,
-        "goals_conceded":18 
+{
+    "Liverpool": {
+        "games_played": 21,
+        "goals_scored": 47,
+        "goals_conceded": 18,
+        "defence": 0.007742063492063494,
+        "attack": 0.02486772486772487
     },
-    "t2": {
-        "name": "Man City",
-        "games_played":20,
-        "goals_scored":48,
-        "goals_conceded":23
+    "Man City": {
+        "games_played": 20,
+        "goals_scored": 48,
+        "goals_conceded": 23,
+        "defence": 0.004488095238095241,
+        "attack": 0.026666666666666665
     },
-    "t3": {
-        "name": "Arsenal",
-        "games_played":21,
-        "goals_scored":42,
-        "goals_conceded":20 
+    "Arsenal": {
+        "games_played": 21,
+        "goals_scored": 42,
+        "goals_conceded": 20,
+        "defence": 0.006683862433862436,
+        "attack": 0.022222222222222223
     },
-    "t4": {
-        "name": "Aston Villa",
-        "games_played":21,
-        "goals_scored":43,
-        "goals_conceded": 27
+    "Aston Villa": {
+        "games_played": 21,
+        "goals_scored": 43,
+        "goals_conceded": 27,
+        "defence": 0.0029801587301587305,
+        "attack": 0.022751322751322748
     },
-    "t5": {
-        "name": "Tottenham",
-        "games_played":21,
-        "goals_scored":44,
-        "goals_conceded": 31
+    "Tottenham": {
+        "games_played": 21,
+        "goals_scored": 44,
+        "goals_conceded": 31,
+        "defence": 0.0008637566137566141,
+        "attack": 0.023280423280423283
     },
-    "t6": {
-        "name": "West Ham",
-        "games_played":21,
-        "goals_scored":35,
-        "goals_conceded": 32
+    "West Ham": {
+        "games_played": 21,
+        "goals_scored": 35,
+        "goals_conceded": 32,
+        "defence": 0.0003346560846560869,
+        "attack": 0.01851851851851852
     },
-    "t7": {
-        "name": "Brighton",
-        "games_played":21,
-        "goals_scored":38,
-        "goals_conceded":33 
+    "Brighton": {
+        "games_played": 21,
+        "goals_scored": 38,
+        "goals_conceded": 33,
+        "defence": -0.00019444444444444278,
+        "attack": 0.020105820105820106
     },
-    "t8": {
-        "name": "ManUnited",
-        "games_played":21,
-        "goals_scored":24,
-        "goals_conceded": 29
+    "ManUnited": {
+        "games_played": 21,
+        "goals_scored": 24,
+        "goals_conceded": 29,
+        "defence": 0.0019219576719576735,
+        "attack": 0.012698412698412698
     },
-    "t9": {
-        "name": "Chelsea",
-        "games_played":21,
-        "goals_scored":35,
-        "goals_conceded": 31
+    "Chelsea": {
+        "games_played": 21,
+        "goals_scored": 35,
+        "goals_conceded": 31,
+        "defence": 0.0008637566137566141,
+        "attack": 0.01851851851851852
     },
-    "t10": {
-        "name": "Newcastle",
-        "games_played":21,
-        "goals_scored":41,
-        "goals_conceded":32 
+    "Newcastle": {
+        "games_played": 21,
+        "goals_scored": 41,
+        "goals_conceded": 32,
+        "defence": 0.0003346560846560869,
+        "attack": 0.02169312169312169
     },
-    "t11": {
-        "name": "Wolverhamton",
-        "games_played":21,
-        "goals_scored":30,
-        "goals_conceded":31 
+    "Wolverhamton": {
+        "games_played": 21,
+        "goals_scored": 30,
+        "goals_conceded": 31,
+        "defence": 0.0008637566137566141,
+        "attack": 0.015873015873015872
     },
-    "t12": {
-        "name": "Bournemouth",
-        "games_played":20,
-        "goals_scored":28,
-        "goals_conceded":39 
+    "Bournemouth": {
+        "games_played": 20,
+        "goals_scored": 28,
+        "goals_conceded": 39,
+        "defence": -0.004400793650793649,
+        "attack": 0.015555555555555555
     },
-    "t13": {
-        "name": "FC Fulham",
-        "games_played":21,
-        "goals_scored":28,
-        "goals_conceded": 36
+    "FC Fulham": {
+        "games_played": 21,
+        "goals_scored": 28,
+        "goals_conceded": 36,
+        "defence": -0.0017817460317460293,
+        "attack": 0.014814814814814814
     },
-    "t14": {
-        "name": "Brentford",
-        "games_played":20,
-        "goals_scored":29,
-        "goals_conceded": 33
+    "Brentford": {
+        "games_played": 20,
+        "goals_scored": 29,
+        "goals_conceded": 33,
+        "defence": -0.001067460317460315,
+        "attack": 0.01611111111111111
     },
-    "t15": {
-        "name": "Crstal Palace",
-        "games_played":21,
-        "goals_scored":22,
-        "goals_conceded": 34
+    "Crstal Palace": {
+        "games_played": 21,
+        "goals_scored": 22,
+        "goals_conceded": 34,
+        "defence": -0.0007235449735449724,
+        "attack": 0.011640211640211642
     },
-    "t16": {
-        "name": "Nottingham",
-        "games_played":21,
-        "goals_scored":26,
-        "goals_conceded": 38
+    "Nottingham": {
+        "games_played": 21,
+        "goals_scored": 26,
+        "goals_conceded": 38,
+        "defence": -0.0028399470899470886,
+        "attack": 0.013756613756613757
     },
-    "t17": {
-        "name": "Everton",
-        "games_played":21,
-        "goals_scored":24,
-        "goals_conceded": 28
+    "Everton": {
+        "games_played": 21,
+        "goals_scored": 24,
+        "goals_conceded": 28,
+        "defence": 0.0024510582010582034,
+        "attack": 0.012698412698412698
     },
-    "t18": {
-        "name": "Luton Town",
-        "games_played":20,
-        "goals_scored":24,
-        "goals_conceded": 38
+    "Luton Town": {
+        "games_played": 20,
+        "goals_scored": 24,
+        "goals_conceded": 38,
+        "defence": -0.003845238095238093,
+        "attack": 0.013333333333333332
     },
-    "t19": {
-        "name": "Burnley",
-        "games_played":21,
-        "goals_scored":21,
-        "goals_conceded":42 
+    "Burnley": {
+        "games_played": 21,
+        "goals_scored": 21,
+        "goals_conceded": 42,
+        "defence": -0.004956349206349205,
+        "attack": 0.011111111111111112
     },
-    "t20": {
-        "name": "Sheff Utd",
-        "games_played":21,
-        "goals_scored":17,
-        "goals_conceded": 51
+    "Sheff Utd": {
+        "games_played": 21,
+        "goals_scored": 17,
+        "goals_conceded": 51,
+        "defence": -0.009718253968253964,
+        "attack": 0.008994708994708995
     }
 }
