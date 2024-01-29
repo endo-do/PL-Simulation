@@ -1,0 +1,125 @@
+
+{
+    "defense_average_PL":,
+    
+    "t1": {
+        "name": "Liverpool",
+        "games_played":21,
+        "goals_scored":47,
+        "goals_conceded":18 
+    },
+    "t2": {
+        "name": "Man City",
+        "games_played":20,
+        "goals_scored":48,
+        "goals_conceded":23
+    },
+    "t3": {
+        "name": "Arsenal",
+        "games_played":21,
+        "goals_scored":42,
+        "goals_conceded":20 
+    },
+    "t4": {
+        "name": "Aston Villa",
+        "games_played":21,
+        "goals_scored":43,
+        "goals_conceded": 27
+    },
+    "t5": {
+        "name": "Tottenham",
+        "games_played":21,
+        "goals_scored":44,
+        "goals_conceded": 31
+    },
+    "t6": {
+        "name": "West Ham",
+        "games_played":21,
+        "goals_scored":35,
+        "goals_conceded": 32
+    },
+    "t7": {
+        "name": "Brighton",
+        "games_played":21,
+        "goals_scored":38,
+        "goals_conceded":33 
+    },
+    "t8": {
+        "name": "ManUnited",
+        "games_played":21,
+        "goals_scored":24,
+        "goals_conceded": 29
+    },
+    "t9": {
+        "name": "Chelsea",
+        "games_played":21,
+        "goals_scored":35,
+        "goals_conceded": 31
+    },
+    "t10": {
+        "name": "Newcastle",
+        "games_played":21,
+        "goals_scored":41,
+        "goals_conceded":32 
+    },
+    "t11": {
+        "name": "Wolverhamton",
+        "games_played":21,
+        "goals_scored":30,
+        "goals_conceded":31 
+    },
+    "t12": {
+        "name": "Bournemouth",
+        "games_played":20,
+        "goals_scored":28,
+        "goals_conceded":39 
+    },
+    "t13": {
+        "name": "FC Fulham",
+        "games_played":21,
+        "goals_scored":28,
+        "goals_conceded": 36
+    },
+    "t14": {
+        "name": "Brentford",
+        "games_played":20,
+        "goals_scored":29,
+        "goals_conceded": 33
+    },
+    "t15": {
+        "name": "Crstal Palace",
+        "games_played":21,
+        "goals_scored":22,
+        "goals_conceded": 34
+    },
+    "t16": {
+        "name": "Nottingham",
+        "games_played":21,
+        "goals_scored":26,
+        "goals_conceded": 38
+    },
+    "t17": {
+        "name": "Everton",
+        "games_played":21,
+        "goals_scored":24,
+        "goals_conceded": 28
+    },
+    "t18": {
+        "name": "Luton Town",
+        "games_played":20,
+        "goals_scored":24,
+        "goals_conceded": 38
+    },
+    "t19": {
+        "name": "Burnley",
+        "games_played":21,
+        "goals_scored":21,
+        "goals_conceded":42 
+    },
+    "t20": {
+        "name": "Sheff Utd",
+        "games_played":21,
+        "goals_scored":17,
+        "goals_conceded": 51
+    }
+}
