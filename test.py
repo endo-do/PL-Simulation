@@ -1,5 +1,34 @@
-two_dim_list = [[2, 1], [3, 4], [5, 6]]
-indices = list(range(len(two_dim_list)))
-indices.sort(key=lambda i: two_dim_list[i][0])
-sorted_two_dim_list = [two_dim_list[i] for i in indices]
-print(sorted_two_dim_list)
+from Table import Table
+
+PL_Teams = ["Liverpool","Man City","Arsenal","Aston Villa","Tottenham","West Ham","Brighton","ManUnited","Chelsea"]
+
+League = Table([[i, 0] for i in PL_Teams])
+
+League.display()
+
+League.remove_column(-1)
+
+League.add_row(0, ["Nottingham"])
+
+League.display()
+
+League.add_column(1, ["active" for i in League.get_content()])
+
+for i in range(3, 6):
+    League.replace_cell(i, -1, "inactive")
+
+League.display()
+
+for i in League.get_content().copy():
+    if i[-1] == "inactive":
+        League.remove_row(League.get_content().index(i))
+
+League.conf_header("row", "add", ["#default"])
+
+League.display()
+
+League.replace_content([[1, 2, 3, 4], [5, 6, 7, 8]])
+
+print(League.content)
+
+League.display()
