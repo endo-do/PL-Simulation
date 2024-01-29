@@ -373,6 +373,11 @@ class Table:
             self.header_action_row = "update"
 
 
+    def replace_content(self, content):
+        self.content = restructure(content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
+        self.header_action_col = "insert"
+        self.header_action_row = "insert"
+
     def replace_row(self, index, row=None):
         """
         Replaces the row at specified index with given content

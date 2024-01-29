@@ -50,21 +50,52 @@ class League():
             if team2["attack"] - team1["defence"] >= team2_attempt:
                 team2_goals += 1
 
+        if team1_goals > team2_goals:
+            win_team = team1
+            lose_team = team2
+        elif team2_goals > team1_goals:
+            win_team = team2
+            lose_team = team1
+        else:
+            win_team = team1
+            lose_team = team1
+
+        if win_team != lose_team:
+
+            score = int(self.results.get_cell(self.team_names.index(win_team["name"]), 1))
+            self.results.replace_cell(self.team_names.index(win_team["name"]), 1, score + 1)
+
+            score = int(self.results.get_cell(self.team_names.index(lose_team["name"]), 3))
+            self.results.replace_cell(self.team_names.index(lose_team["name"]), 3, score + 1)
+
+        else:
+            score = int(self.results.get_cell(self.team_names.index(team1["name"]), 2))
+            self.results.replace_cell(self.team_names.index(team1["name"]), 2, score + 1)
+
+            score = int(self.results.get_cell(self.team_names.index(team2["name"]), 2))
+            self.results.replace_cell(self.team_names.index(team2["name"]), 2, score + 1)
+        
         print(f"{team1["name"]} {team1_goals} : {team2_goals} {team2["name"]}")
     
     
     def play(self):
+
+        self.team_names = [team for team in self.teams.keys()]
+        self.results = Table([[team["name"], 0, 0, 0] for team in self.teams.values()])
+        self.results.conf_header("row", "add", ["Team",  "W", "D", "L"])
+        self.results.conf_header("col", "add", ["#default"])
+        self.results.display()
+
         amount_of_games = int((len(self.teams) * (len(self.teams))))
 
-        team_names = [team for team in self.teams.keys()]
         for i in range (amount_of_games):
             t1 = i // 20
             t2 = i % 20
             if t1 != t2:
-                self.match(self.teams[team_names[t1]], self.teams[team_names[t2]])
+                self.match(self.teams[self.team_names[t1]], self.teams[self.team_names[t2]])
+
+        self.results.display()
             
-
-
 PremierLeague= League(PATH)
 PremierLeague.update_data()
 PremierLeague.play()
