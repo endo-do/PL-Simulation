@@ -21,14 +21,17 @@ class League():
             self.cleaned_data[self.data[team]["name"]] = self.data[team]
         for team in self.cleaned_data.values():
             del team["name"]
-        print(self.cleaned_data)
-        total_goals_conceded = sum([int(team["goals_conceded"]) * int(team["games_played"]) for team in self.cleaned_data.values()])
+        total_goals_conceded = sum([int(team["goals_conceded"]) / int(team["games_played"]) for team in self.cleaned_data.values()])
         total_teams = len(self.cleaned_data)
         avg_defence = total_goals_conceded / total_teams
-        print(avg_defence)
         for team in self.cleaned_data:
-            # defence_score = avg + conceded/game
-            defence_score = avg_defence + self.cleaned_data[team]["goals_conceded"] / self.cleaned_data[team]["games_played"]
+            defence_score = avg_defence - self.cleaned_data[team]["goals_conceded"] / self.cleaned_data[team]["games_played"]
+            self.cleaned_data[team]["defence"] = defence_score / 90
+            attack_score = self.cleaned_data[team]["goals_scored"] / self.cleaned_data[team]["games_played"]
+            self.cleaned_data[team]["attack"] = attack_score / 90
+
+        print(self.cleaned_data)
+
 
 l1 = League(PATH)
 l1.handle_data()
