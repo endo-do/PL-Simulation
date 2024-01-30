@@ -113,7 +113,6 @@ class League():
         self.results = Table([[team["name"], 0, 0, 0] for team in self.teams.values()])
         self.results.conf_header("row", "add", ["Team",  "W", "D", "L"])
         self.results.conf_header("col", "add", ["#default"])
-        self.results.display()
 
         # calculate amount of games
         amount_of_games = int((len(self.teams) * (len(self.teams))))
@@ -124,6 +123,10 @@ class League():
             if t1 != t2:
                 self.match(self.teams[self.team_names[t1]], self.teams[self.team_names[t2]])
 
+        # sort results based on the Wins column
+        self.results.sort_on_col(1)
+
+        # display results
         self.results.display()
             
 # create a League

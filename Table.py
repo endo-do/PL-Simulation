@@ -171,7 +171,7 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
             # Replaces any cell that was specified as empty in the 'empty_cells' list with the given 'replace_empty' var
             new_content = []
             for line in data:
-                new_content.append([str(char) if char not in empty_cells else replace_empty for char in line])
+                new_content.append([str(char) if str(char) not in empty_cells else replace_empty for char in line])
                 data = new_content 
             
             # Returns the restructured and cleaned data as a 'list_in_list'
@@ -236,13 +236,32 @@ class Table:
         self.header = header
         
         # Set the header_actions vars to 'insert'
-        self.header_action_col = "insert"
-        self.header_action_row = "insert"
+        self.header_action_col = "calculate"
+        self.header_action_row = "calculate"
 
         # Restructure the given content to a 'list_in_list'
         self.content = restructure(self.content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
         
+    
+    def sort_on_col(self, column):
+        sorted_content = sorted(self.get_content(), key=lambda x: x[column], reverse=True)
+        self.replace_content(sorted_content)
 
+    def sort_on_row(self, row):
+        to_be_sorted_row = self.get_content()[row]
+        other_rows = [sublist for i, sublist in enumerate(self.get_content()) if i != row]
+
+        sorted_indices = sorted(range(len(to_be_sorted_row)), key=lambda k: to_be_sorted_row[k])
+
+        # Reorder the other lists based on the sorted indices
+        sorted_row = [to_be_sorted_row[i] for i in sorted_indices]
+        sorted_other_rows = [[lst[i] for i in sorted_indices] for lst in other_rows]
+
+        sorted_other_rows.insert(row, sorted_row)
+
+        self.replace_content(sorted_other_rows)
+    
+    
     def add_row(self, index, row):
         
         """
@@ -284,6 +303,8 @@ class Table:
         if "row" in self.header:
             self.header_action_row = "update"
 
+        self.update()
+
    
     def add_column(self, index, column):
 
@@ -324,6 +345,8 @@ class Table:
             self.header_action_col = "update"
         if "row" in self.header:
             self.header_action_row = "update"
+
+        self.update()
 
 
     def remove_row(self, index):
@@ -624,25 +647,27 @@ class Table:
             # Handle 'row' header
             if header == "row":
                 if header not in self.header:
-                    self.header_action_row = "insert"
+                    self.header_action_row = "calculate"
                 else:
                     self.header_action_row = "update"
             
             # ... 'col' ...
             elif header == "col":
                 if header not in self.header:
-                    self.header_action_col = "insert"
+                    self.header_action_col = "calculate"
                 else:
                     self.header_action_col = "update"
         
             # Add the specified header or replace it if it's already active
             self.header[header] = restructure(content, "list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
 
+        self.update()
+
     
-    def display(self):
+    def update(self):
 
         """
-        The main function that displays the table
+        Updates the headers and other stuff. Recommended to run before 'display' function
         """
 
         # Handle the 'row' header such as implementing it to the table or update it if necessary
@@ -653,10 +678,10 @@ class Table:
                 
                 # Remove the implemented header and set action the 'insert' to fully update the header
                 self.content.pop(0)
-                self.header_action_row = "insert"
+                self.header_action_row = "calculate"
 
             # Handle 'insert' header action
-            if self.header_action_row == "insert":
+            if self.header_action_row == "calculate":
                 
                 # Recalculate the count of columns
                 self.columns = 0
@@ -675,10 +700,13 @@ class Table:
                     if len(self.header["row"]) < self.columns -1 if "col" in self.header else self.columns:
                         for i in range(self.columns -1 if "col" in self.header else self.columns - len(self.header["row"])):
                             self.header["row"].append(self.replace_empty)
-             
+
+                self.header_action_row = "insert" 
+            
+            if self.header_action_row == "insert":
                 # Implement the header into the content of the table
                 self.content = [self.header["row"]] + self.content
-        
+
         # ... col ...
         if "col" in self.header:
 
@@ -688,10 +716,10 @@ class Table:
                 # ...
                 for i in self.content:
                     i.pop(0)    
-                self.header_action_col = "insert"
+                self.header_action_col = "calculate"
 
             # ...
-            if self.header_action_col == "insert":
+            if self.header_action_col == "calculate":
 
                 # ...
                 if self.header["col"] == ["#default"]:
@@ -709,8 +737,10 @@ class Table:
                 if "row" in self.header:
                     self.header["col"].pop(-1)
                     self.header["col"].insert(0, self.replace_empty)
-
-                # ... 
+                
+                self.header_action_col = "insert"
+            
+            if self.header_action_col == "insert":
                 for index, i in enumerate(self.header["col"]):
                     self.content[index] = [i] + self.content[index]
 
@@ -741,7 +771,6 @@ class Table:
                 if len(str(cell)) > self.max_chars[active_column]: 
                     self.max_chars[active_column] = len(str(cell))
                 active_column += 1
-        column_index = 0  
         
         # Set a minimum width for each column if specified
         if self.min_width != None:
@@ -759,9 +788,13 @@ class Table:
         if self.same_sized_cols:
             self.max_chars = [max(self.max_chars) for i in self.max_chars]
 
-        ### -Printing the table-
+    def display(self):
     
+        self.update()
+
         # Print the headline
+        column_index = 0  
+        
         print("╔", end="")
         for column in self.max_chars:
             print("═" * self.space_left, end="")  
