@@ -16,8 +16,9 @@ class League():
         
         # self.teams is defined as empty dict. We'll be storing all the data for the teams in this dict
         self.teams = {}
+        self.season = 1
 
-    # Function to update the data in the json file. -> Recalculate attack and defence score based on gamesplayed, goals scored and conceded
+    # Function to update the data in the json file. -> Recalculate attack and defence score based on games played, goals scored and conceded
     def update_data(self):
         
         # Open the json file and read all the data and save it as self.data
@@ -78,29 +79,29 @@ class League():
         else:
             win_team = team1
             lose_team = team1
-
+        
         # If one team has won
         if win_team != lose_team:
 
             # get current wins from winning team from the table
-            score = int(self.results.get_cell(self.team_names.index(win_team["name"]), 1))
+            score = int(self.results.get_cell(self.team_names.index(win_team["name"]), self.season))
             # add 1 to the wins
-            self.results.replace_cell(self.team_names.index(win_team["name"]), 1, score + 1)
+            self.results.replace_cell(self.team_names.index(win_team["name"]), self.season, score + 3)
 
             # same for losing team and losses
-            score = int(self.results.get_cell(self.team_names.index(lose_team["name"]), 3))
+            score = int(self.results.get_cell(self.team_names.index(lose_team["name"]), self.season))
             # add 1 to losses
-            self.results.replace_cell(self.team_names.index(lose_team["name"]), 3, score + 1)
+            self.results.replace_cell(self.team_names.index(lose_team["name"]), self.season, score + 0)
 
         # if draw
         else:
             # for both teams get current draw score and add 1
             
-            score = int(self.results.get_cell(self.team_names.index(team1["name"]), 2))
-            self.results.replace_cell(self.team_names.index(team1["name"]), 2, score + 1)
+            score = int(self.results.get_cell(self.team_names.index(team1["name"]), self.season))
+            self.results.replace_cell(self.team_names.index(team1["name"]), self.season, score + 1)
 
-            score = int(self.results.get_cell(self.team_names.index(team2["name"]), 2))
-            self.results.replace_cell(self.team_names.index(team2["name"]), 2, score + 1)
+            score = int(self.results.get_cell(self.team_names.index(team2["name"]), self.season))
+            self.results.replace_cell(self.team_names.index(team2["name"]), self.season, score + 1)
     
     
     # simulate a league with every team playing 2 times against each other team
@@ -111,7 +112,7 @@ class League():
         
         # setting up the table
         self.results = Table([[team["name"], 0, 0, 0] for team in self.teams.values()])
-        self.results.conf_header("row", "add", ["Team",  "W", "D", "L"])
+        self.results.conf_header("row", "add", ["Team",  "Points1", "Points2", "Points3"])
         self.results.conf_header("col", "add", ["#default"])
 
         # calculate amount of games
@@ -136,4 +137,6 @@ PremierLeague= League(PATH)
 PremierLeague.update_data()
 
 # let them play and print out the results in a table
-PremierLeague.play()
+for i in range (3):
+    PremierLeague.season += 1
+    PremierLeague.play()
