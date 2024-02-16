@@ -124,9 +124,6 @@ class League():
             if t1 != t2:
                 self.match(self.teams[self.team_names[t1]], self.teams[self.team_names[t2]])
 
-        # sort results based on the Wins column
-        self.results.sort_on_col(1)
-
         # display results
         self.results.display()
             
@@ -138,5 +135,5 @@ PremierLeague.update_data()
 
 # let them play and print out the results in a table
 for i in range (3):
-    PremierLeague.season += 1
     PremierLeague.play()
+    PremierLeague.season += 1

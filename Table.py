@@ -245,7 +245,12 @@ class Table:
     
     def sort_on_col(self, column):
         sorted_content = sorted(self.get_content(), key=lambda x: x[column], reverse=True)
-        self.replace_content(sorted_content)
+        self.content = sorted_content
+        if "col" in self.header:
+            self.header_action_col = "insert"
+        if "row" in self.header:
+            self.header_action_row = "insert"
+        self.update()
 
     def sort_on_row(self, row):
         to_be_sorted_row = self.get_content()[row]
@@ -259,7 +264,7 @@ class Table:
 
         sorted_other_rows.insert(row, sorted_row)
 
-        self.replace_content(sorted_other_rows)
+        self.content = sorted_other_rows
     
     
     def add_row(self, index, row):
@@ -672,7 +677,7 @@ class Table:
 
         # Handle the 'row' header such as implementing it to the table or update it if necessary
         if "row" in self.header:
-            
+
             # Handle 'update' header action
             if self.header_action_row == "update":
                 
@@ -682,7 +687,7 @@ class Table:
 
             # Handle 'insert' header action
             if self.header_action_row == "calculate":
-                
+
                 # Recalculate the count of columns
                 self.columns = 0
                 for row in self.content:
@@ -701,7 +706,7 @@ class Table:
                         for i in range(self.columns -1 if "col" in self.header else self.columns - len(self.header["row"])):
                             self.header["row"].append(self.replace_empty)
 
-                self.header_action_row = "insert" 
+                self.header_action_row = "insert"
             
             if self.header_action_row == "insert":
                 # Implement the header into the content of the table
@@ -734,14 +739,17 @@ class Table:
                             self.header["col"].append(self.replace_empty)
 
                 # Handle if 'row' and 'col' header are active
-                if "row" in self.header:
+                if "row" in self.header and self.header["row"][0] != self.replace_empty and self.header["col"][0] != self.replace_empty:
                     self.header["col"].pop(-1)
                     self.header["col"].insert(0, self.replace_empty)
                 
                 self.header_action_col = "insert"
-            
+
             if self.header_action_col == "insert":
+                print(self.content)
                 for index, i in enumerate(self.header["col"]):
+                    print(i)
+                    print(self.content[index])
                     self.content[index] = [i] + self.content[index]
 
         # Reset header actions
