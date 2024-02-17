@@ -106,7 +106,6 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
                         if row not in rows:
                             data[row] = {}
                 
-                # Handles 'fill_with_empty_columns' as specified
                 if fill_with_empty_columns:
                     for key, row in data.items():
                         columns = list(row.keys())
@@ -115,11 +114,9 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
                                 if col not in columns:
                                     data[key][col] = replace_empty
                 
-                # Sorts the given data and creates a new list for the cleaned data
                 new_content = []
                 data = {k: dict(sorted(v.items())) if isinstance(v, dict) else v for k, v in sorted(data.items())}
 
-                # Restructures the given data and replaces any list that was specified as empty in 'empty_lists' with the given 'replace_empty' var
                 for line in data:
                     if data[line] in empty_dicts:
                         new_line = [replace_empty]
@@ -131,16 +128,13 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
                             new_line.append(cell)
                     new_content.append(new_line)
                 
-                # Replaces the old data with the cleaned and restructured one
                 data = new_content
             
-            # Replaces any cell that was specified as empty in the 'empty_cells' list with the given 'replace_empty' var
             new_content = []
             for line in data:
                 new_content.append([str(char) if str(char) not in empty_cells else replace_empty for char in line])
                 data = new_content 
             
-            # Returns the restructured and cleaned data as a 'list_in_list'
             return data
 
 
@@ -204,6 +198,18 @@ class Table:
 
         self.content = restructure(self.content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
 
+    def get_content(self):
+        return self.content
+    
+    def get_row(self, row):
+        return self.content[row]
+    
+    def get_column(self, column):
+        return [i[column] for i in self.content]
+    
+    def get_cell(self, row, column):
+        return self.content[row][column]
+    
     def replace_content(self, content):
         self.content = restructure(content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
             
@@ -213,6 +219,38 @@ class Table:
 
     def replace_row(self, index, content):
         self.content[index] = content
+
+    def replace_cell(self, col, row, content):
+        self.content[row][col] = content
+
+    def add_row(self, row, content):
+        if str(row) == "-1":
+            row = "end"
+        elif row < 0:
+            row += 1
+        
+        if row == "end":
+            self.content.append(content)
+        else:
+            self.content.insert(row, content)
+
+    def add_column(self, column, content):
+        if str(column) == "-1":
+            column = "end"
+        elif column < 0:
+            column += 1
+        for index, i in enumerate(content):
+            if column == "end":
+                self.content[index] = i
+            else:
+                self.content[index].insert(column, i)
+
+    def remove_row(self, row):
+        self.content.pop(row)
+
+    def remove_column(self, column):
+        for i in self.content:
+            i.pop(column)
 
     def sort_col(self, col, reverse=False):
         column = [i[col] for i in self.content]
@@ -232,7 +270,6 @@ class Table:
 
         sorted_indices = sorted(range(len(to_be_sorted_row)), key=lambda k: to_be_sorted_row[k], reverse=reverse)
 
-        # Reorder the other lists based on the sorted indices
         sorted_row = [to_be_sorted_row[i] for i in sorted_indices]
         sorted_other_rows = [[lst[i] for i in sorted_indices] for lst in other_rows]
 
@@ -243,6 +280,14 @@ class Table:
     def swap_cols_rows(self):
         self.content = list(map(list, zip(*self.content)))
 
+    def add_header(self, header_type, header_content):
+        self.header[header_type] = header_content
+
+    def replace_header(self, header_type, header_content):
+        self.add_header(header_type, header_content)
+
+    def remove_header(self, header_type):
+        del self.header[header_type]
 
     def display(self):
         
@@ -287,19 +332,16 @@ class Table:
                     self.max_chars[active_column] = len(str(cell))
                 active_column += 1
 
-        # Set a minimum width for each column if specified
         if self.min_width != None:
             for index, i in enumerate(self.max_chars):
                 if self.min_width > int(i):
                     self.max_chars[index] = self.min_width
         
-        # ... maximum ...
         if self.max_width != None:
             for index, i in enumerate(self.max_chars):
                 if self.max_width < int(i):
                     self.max_chars[index] = self.max_width
 
-        # Implement the same size for each column if specified
         if self.same_sized_cols:
             self.max_chars = [max(self.max_chars) for i in self.max_chars]
 
@@ -324,17 +366,15 @@ class Table:
             column_index += 1  
         row_index = 0  
 
-        # Print each row
         for row in range(self.rows): 
             print("║", end="") 
             column_index = 0
-            # For each cell in row
+
             for column in range(self.columns):
-                # Calculate amount of spaces to add to content to ensure correct sizing of the cell
+
                 spacebar_counter = self.max_chars[column] - len(str(display_content[row][column])) 
                 text = str(display_content[row][column])
 
-                # Handle if content is larger than max width
                 if len(text) > self.max_chars[column_index]:
 
                     if self.max_chars[column_index] == 2:
@@ -354,20 +394,16 @@ class Table:
                         text = textstr
                     spacebar_counter = 0
                 
-                # Handle left orientation
                 if self.orientation == "left": 
                     content = text + str(spacebar_counter * " ")  
                 
-                # ... right ...
                 elif self.orientation == "right":
                     content = str(spacebar_counter * " ") + text 
 
-                # Print the cell
                 print(" " * self.space_left, end="")
                 print(content, end="")
                 print(" " * self.space_right, end="")
                 
-                # Handle the vertical separators between cells and the right border
                 if column_index == self.columns - 1: 
                     print("║") 
                 else:
@@ -378,7 +414,6 @@ class Table:
                     print(line, end="")
                 column_index += 1  
             
-            # Handle the horizontal sperators between rows and the bottom border
             if row_index == 0 and "row" in self.header: 
                 left_border = "╠"
                 connection = "═"
@@ -400,7 +435,6 @@ class Table:
             print(left_border, end="") 
             column_index = 0
         
-            # Print the horizontal separators
             for column in self.max_chars: 
                 print(connection * self.space_left, end="")
                 print(column * connection, end="") 
@@ -428,7 +462,3 @@ class Table:
                 column_index += 1
 
             row_index += 1
-
-
-TestTable = Table([[1, 2, 3], [4, 5, 6], [7, 8, 9]], header={"col":["#default"], "row":["#default"]})
-# TestTable.display()
