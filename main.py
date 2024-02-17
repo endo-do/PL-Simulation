@@ -19,7 +19,7 @@ class League():
         self.season = 1
 
         # setting up the table
-        self.results_table = Table([[team["name"], 0, 0, 0] for team in self.teams.values()], header={"row":["Team",  "Points"], "col":["#default"]})
+        self.results_table = Table([[team["name"], 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3"], "col":["#default"]})
 
     # Function to update the data in the json file. -> Recalculate attack and defence score based on games played, goals scored and conceded
     def update_data(self):
@@ -48,6 +48,8 @@ class League():
 
         # save the data as self.teams
         self.teams = self.data
+        self.results_table = Table([[team["name"], 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3"], "col":["#default"]})
+        self.team_names = [team for team in self.teams.keys()]
 
     # Function for matching 2 teams and letting them play
     def match(self, team1, team2):
@@ -88,19 +90,11 @@ class League():
         
         # If one team has won
         if draw is False:
-            self.results[win_team][0] += 1
-            self.results[win_team][3] += 3
-            self.results[lose_team][2] += 1
+            self.results[win_team] += 3
         
         else:
-            self.results[win_team][1] += 1
-            self.results[win_team][3] += 1
-            self.results[lose_team][1] += 1
-            self.results[lose_team][3] += 1
-
-        new_content = [[team, value[3]] for team, value in self.results.items()]
-
-        self.results_table.replace_content(new_content)
+            self.results[win_team] += 1
+            self.results[lose_team] += 1
     
     # simulate a league with every team playing 2 times against each other team
     def play(self):
@@ -108,18 +102,15 @@ class League():
         # calculate amount of games
         amount_of_games = int((len(self.teams) * (len(self.teams))))
 
-        self.team_names = [team for team in self.teams.keys()]
-        self.results = {team:[0, 0, 0, 0] for team in self.teams} # W D L Points
+        self.results = {team:0 for team in self.teams}
 
         for i in range (amount_of_games):
             t1 = i // 20
             t2 = i % 20
             if t1 != t2:
                 self.match(self.teams[self.team_names[t1]], self.teams[self.team_names[t2]])
+        self.results_table.replace_column(self.season, [value for team, value in self.results.items()])
 
-        # display results
-        self.results_table.display()
-            
 # create a League
 PremierLeague= League(PATH)
 
@@ -127,4 +118,7 @@ PremierLeague= League(PATH)
 PremierLeague.update_data()
 
 # let them play and print out the results in a table
-PremierLeague.play()
+for i in range(3):
+    PremierLeague.play()
+    PremierLeague.season += 1
+PremierLeague.results_table.display()

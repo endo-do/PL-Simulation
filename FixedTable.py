@@ -228,8 +228,13 @@ class Table:
     def replace_content(self, content):
         self.content = restructure(content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
             
-    def display(self):
+    def replace_column(self, index, content):
+        for row_index, i in enumerate(content):
+            self.content[row_index][index] = i
 
+    
+    def display(self):
+        
         self.rows = len(self.content)
         self.columns = 0
         for row in self.content:
@@ -244,15 +249,13 @@ class Table:
         for header in self.header.keys():
             if header in self.default_header:
                 if header == "row":
-                    self.header["row"] = [f"{i}." for i in range(self.columns)]
+                    self.header["row"] = [f"{i+1}." for i in range(self.columns)]
                 if header == "col":
-                    self.header["col"] = [f"{i}." for i in range(self.rows)]
-            
-        display_content = self.content
+                    self.header["col"] = [f"{i+1}." for i in range(self.rows)]
+        display_content = []
         if "col" in self.header and "row" in self.header:
-            for index, i in enumerate(self.header["col"]):
-                display_content[index].insert(0, i)
-            display_content.insert(0, [""] + self.header["row"])
+            display_content = [[i] + self.content[index] for index, i in enumerate(self.header["col"])]
+            display_content = [[""] + self.header["row"]] + display_content
             self.rows += 1
             self.columns += 1
         elif "col" in self.header:
@@ -272,7 +275,7 @@ class Table:
                 if len(str(cell)) > self.max_chars[active_column]: 
                     self.max_chars[active_column] = len(str(cell))
                 active_column += 1
-        
+
         # Set a minimum width for each column if specified
         if self.min_width != None:
             for index, i in enumerate(self.max_chars):
@@ -288,9 +291,8 @@ class Table:
         # Implement the same size for each column if specified
         if self.same_sized_cols:
             self.max_chars = [max(self.max_chars) for i in self.max_chars]
-        
+
         column_index = 0  
-        
         print("╔", end="")
         for column in self.max_chars:
             print("═" * self.space_left, end="")  
@@ -309,17 +311,14 @@ class Table:
                     print("╤", end="")  
             
             column_index += 1  
-
         row_index = 0  
 
         # Print each row
         for row in range(self.rows): 
             print("║", end="") 
             column_index = 0
-
             # For each cell in row
             for column in range(self.columns):
-                
                 # Calculate amount of spaces to add to content to ensure correct sizing of the cell
                 spacebar_counter = self.max_chars[column] - len(str(display_content[row][column])) 
                 text = str(display_content[row][column])
@@ -389,7 +388,7 @@ class Table:
 
             print(left_border, end="") 
             column_index = 0
-
+        
             # Print the horizontal separators
             for column in self.max_chars: 
                 print(connection * self.space_left, end="")
