@@ -1,2 +1,0 @@
-store headers seperatly and not in content
--> handle headers when printing!
