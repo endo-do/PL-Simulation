@@ -1,14 +1,3 @@
-class Martin():
-    bitches = 0
-
-    def __init__(self, iq):
-        self.iq = iq
-
-
-print(Martin.bitches)
-
-Sajosi = Martin(iq=90)
-Müller = Martin(iq=120)
-
-print(Sajosi.iq)
-print(Müller.bitches)
+list = [1, 2, 3, 4]
+list.insert(0, "A")
+print(list)
