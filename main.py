@@ -3,6 +3,7 @@ import json
 import random
 
 #HashtagForBob
+#HashtagIchHanDasCodedIn10HZugfahrtWillDütschiBahnSchmutzIsch
 
 # Path for the stats file
 PATH = "Team_stats.json"
