@@ -46,7 +46,7 @@ class League():
         with open(PATH, 'w') as f:
             json.dump(self.data, f, indent=4)
 
-        # save the data as self.teams
+        # save the data as self.teams, setup the table and all the team names
         self.teams = self.data
         self.results_table = Table([[team["name"], 0, 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3", "Total"], "col":["#default"]})
         self.team_names = [team for team in self.teams.keys()]
@@ -82,13 +82,12 @@ class League():
             win_team = team2["name"]
             lose_team = team1["name"]
         
-        # If draw set win and lose team to team1 detect later on a draw
         else:
             win_team = team1["name"]
             lose_team = team2["name"]
             draw = True
         
-        # If one team has won
+        # handle draw and distribute points
         if draw is False:
             self.results[win_team] += 3
         
@@ -102,13 +101,17 @@ class League():
         # calculate amount of games
         amount_of_games = int((len(self.teams) * (len(self.teams))))
 
+        # reset results for teams
         self.results = {team:0 for team in self.teams}
 
+        # match each team against each other 2 times
         for i in range (amount_of_games):
             t1 = i // 20
             t2 = i % 20
             if t1 != t2:
                 self.match(self.teams[self.team_names[t1]], self.teams[self.team_names[t2]])
+        
+        # save results in the table of the corresponding season
         self.results_table.replace_column(self.season, [value for team, value in self.results.items()])
 
 # create a League
@@ -117,11 +120,14 @@ PremierLeague= League(PATH)
 # update its data -> calculate each teams attack and defence score
 PremierLeague.update_data()
 
-# let them play and print out the results in a table
+# simulate 3 seasons
 for i in range(3):
     PremierLeague.play()
     PremierLeague.season += 1
+# calculate the last columns that sums all the points from the three seasons
 for i in PremierLeague.results_table.content:
     i[4] = i[1] + i[2] + i[3]
+# sort the table based on the total points
 PremierLeague.results_table.sort_on_col(4, reverse=True)
+# display Table
 PremierLeague.results_table.display()
