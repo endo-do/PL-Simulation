@@ -17,7 +17,6 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
     - The restructured and cleaned data.
     """
 
-    # If the data is an empty list return a list with the specified 'replace_empty' var
     if data in empty_lists:
         if structure == "list":
             return [replace_empty]
@@ -26,21 +25,17 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
     
     else:
         
-        # Get the structure of the data with the 'type()' function
         data_type = type(data) 
         if data_type is list:
             element_type = type(data[0])
         elif data_type is dict:
             element_type = type(next(iter(data.values())))
 
-        # Restructers the data into a list
         if structure == "list":    
             data_structure = data_type.__name__
 
-            # Handle if the data is a structured as a dictionary
             if data_structure == "dict":            
 
-                # Handles 'fill_with_empty_columns' as specified
                 if fill_with_empty_columns:
                     columns = list(data.keys())
                     columns = sorted(columns)
@@ -49,26 +44,20 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
                             if i not in columns:
                                 data[i] = replace_empty
 
-                # Sorts the dictionary and restructeres it to a list
                 data = dict(sorted(data.items()))
                 data = [i for i in list(data.values())]
             
-            # Replaces any cell that was specified as empty in the 'empty_cells' list with the given 'replace_empty' var
             for index, i in enumerate(data):
                 if i in empty_cells:
                     data[index] = replace_empty
 
-            # Returns the restructured and cleaned data as a list
             return data
         
-        # Restructures the data into a list_in_list structure
         if structure == "list_in_list":
             data_structure = f"{element_type.__name__}_in_{data_type.__name__}"
 
-            # Handle if the data is structured as a dict_in_list
             if data_structure == "dict_in_list":
 
-                # Handles 'fill_with_empty_rows' as specified
                 if fill_with_empty_rows:
                     rows = [key for d in data for key in d]
                     rows = sorted(rows)
@@ -76,24 +65,19 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
                         if row not in rows:
                             data.append({row:[]})
                 
-                # Sorts the given data and creates a new list for the cleaned data
                 new_content = []
                 data = sorted(data, key=lambda d: next(iter(d)))
 
-                # Restructures the given data and replaces any dict that was specified as empty in 'empty_dits' with the given 'replace_empty' var
                 for line in data:    
                     if any(str(val) in empty_dicts for val in line.values()):
                         new_content.append([replace_empty])
                     else:
                         new_content.append([char for char in line.values()])
                 
-                # Replaces the old data with the cleaned and restructured one
                 data = new_content
 
-            # Handle if the data is structured as a 'list_in_dict'
             elif data_structure == "list_in_dict":
                 
-                # Handles 'fill_with_empty_rows' as specified
                 if fill_with_empty_rows:
                     input(data)
                     rows = list(data.keys())
@@ -102,24 +86,19 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
                         if row not in rows:
                             data[row] = []
                 
-                # Sorts the given data and creates a new list for the cleaned data
                 new_content = []
                 data = dict(sorted(data.items()))
                 
-                # Restructures the given data and replaces any list that was specified as empty in 'empty_lists' with the given 'replace_empty' var
                 for line in data.values():
                     if line in empty_lists:
                         new_content.append([replace_empty])
                     else:
                         new_content.append(line)
                 
-                # Replaces the old data with the cleaned and restructured one
                 data = new_content
 
-            # Handle if the data is structured as a 'dict_in_dict'
             elif data_structure == "dict_in_dict":
                 
-                # Handles 'fill_with_empty_rows' as specified
                 if fill_with_empty_rows:
                     rows = list(data.keys())
                     rows = sorted(rows)
@@ -232,7 +211,39 @@ class Table:
         for row_index, i in enumerate(content):
             self.content[row_index][index] = i
 
+    def replace_row(self, index, content):
+        self.content[index] = content
+
+    def sort_col(self, col, reverse=False):
+        column = [i[col] for i in self.content]
+        column = sorted(column, reverse=reverse)
+        for index, i in enumerate(column):
+            self.content[index] = i
     
+    def sort_row(self, row, reverse=False):
+        self.content[row] = sorted(self.content[row], reverse=reverse)
+    
+    def sort_on_col(self, column, reverse=False):
+        self.content = sorted(self.content, key=lambda x: x[column], reverse=reverse)
+
+    def sort_on_row(self, row, reverse=False):
+        to_be_sorted_row = self.get_content()[row]
+        other_rows = [sublist for i, sublist in enumerate(self.get_content()) if i != row]
+
+        sorted_indices = sorted(range(len(to_be_sorted_row)), key=lambda k: to_be_sorted_row[k], reverse=reverse)
+
+        # Reorder the other lists based on the sorted indices
+        sorted_row = [to_be_sorted_row[i] for i in sorted_indices]
+        sorted_other_rows = [[lst[i] for i in sorted_indices] for lst in other_rows]
+
+        sorted_other_rows.insert(row, sorted_row)
+
+        self.content = sorted_other_rows
+
+    def swap_cols_rows(self):
+        self.content = list(map(list, zip(*self.content)))
+
+
     def display(self):
         
         self.rows = len(self.content)

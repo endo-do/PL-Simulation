@@ -19,7 +19,7 @@ class League():
         self.season = 1
 
         # setting up the table
-        self.results_table = Table([[team["name"], 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3"], "col":["#default"]})
+        self.results_table = Table([[team["name"], 0, 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3", "Tot"], "col":["#default"]})
 
     # Function to update the data in the json file. -> Recalculate attack and defence score based on games played, goals scored and conceded
     def update_data(self):
@@ -48,7 +48,7 @@ class League():
 
         # save the data as self.teams
         self.teams = self.data
-        self.results_table = Table([[team["name"], 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3"], "col":["#default"]})
+        self.results_table = Table([[team["name"], 0, 0, 0, 0] for team in self.teams.values()], header={"row":["Team", "S1", "S2", "S3", "Total"], "col":["#default"]})
         self.team_names = [team for team in self.teams.keys()]
 
     # Function for matching 2 teams and letting them play
@@ -96,7 +96,7 @@ class League():
             self.results[win_team] += 1
             self.results[lose_team] += 1
     
-    # simulate a league with every team playing 2 times against each other team
+    # simulate a league with every team playing 2 times against each owther team
     def play(self):
 
         # calculate amount of games
@@ -121,4 +121,7 @@ PremierLeague.update_data()
 for i in range(3):
     PremierLeague.play()
     PremierLeague.season += 1
+for i in PremierLeague.results_table.content:
+    i[4] = i[1] + i[2] + i[3]
+PremierLeague.results_table.sort_on_col(4, reverse=True)
 PremierLeague.results_table.display()
