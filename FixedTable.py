@@ -1,7 +1,7 @@
 def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_rows=None, empty_dicts=None, empty_lists=None, empty_cells=None, replace_empty=None):
     
     """
-    Restructures and cleanes the given data based on the specified structure
+    - Restructures and cleanes the given data based on the specified structure.
 
     Args:
     - data: The data to be restructured
@@ -24,7 +24,6 @@ def restructure(data, structure, fill_with_empty_columns=None, fill_with_empty_r
             return [[replace_empty]]
     
     else:
-        
         data_type = type(data) 
         if data_type is list:
             element_type = type(data[0])
@@ -196,8 +195,6 @@ class Table:
         self.default_header = []
         self.header = header
 
-        self.content = restructure(self.content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
-
     def get_content(self):
         return self.content
     
@@ -211,7 +208,7 @@ class Table:
         return self.content[row][column]
     
     def replace_content(self, content):
-        self.content = restructure(content, "list_in_list", self.fill_with_empty_columns, self.fill_with_empty_rows, self.empty_dicts, self.empty_lists, self.empty_cells, self.replace_empty)
+        self.content = content
             
     def replace_column(self, index, content):
         for row_index, i in enumerate(content):

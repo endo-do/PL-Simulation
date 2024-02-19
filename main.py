@@ -1,4 +1,5 @@
 from FixedTable import Table
+from FixedTable import restructure
 import json
 import random
 
