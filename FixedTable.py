@@ -36,18 +36,41 @@ class Table:
         - header: dict {header_type:[header]}: header_type: str: "row" or "col", "header": list or dict: content of the header
         """
 
-        self.content = content 
+        self.content = content
         self.space_left = space_left 
         self.space_right = space_right 
         self.orientation = orientation 
         self.min_width = min_width 
-        self.max_width = max_width 
-        self.same_sized_cols = same_sized_cols 
+        self.max_width = max_width
+        self.same_sized_cols = same_sized_cols
         self.empty_cells = empty_cells 
         self.empty_lists = empty_lists 
         self.replace_empty = replace_empty 
         self.default_header = []
         self.header = header
+
+        self.check_types()
+    
+    def check_types(self):
+        if type(self.content) is not list:
+            raise Exception("ValueError: ")
+        if type(self.content[0]) is not list:
+            raise Exception("ValueError: ")
+        for value in (self.space_left, self.space_right, self.min_width, self.max_width):
+            if type(value) is not int and value is not None:
+                raise ValueError
+        if type(self.same_sized_cols) is not bool:
+            raise ValueError
+        for value in (self.empty_cells, self.empty_lists, self.default_header):
+            if type(value) is not list:
+                raise ValueError
+        if type(self.replace_empty) is not str:
+            raise ValueError
+        if type(self.header) is not dict:
+            raise ValueError
+        for header_content in self.header.values():
+            if type(header_content) is not list:
+                raise ValueError
     
     def clean_data(self):
         for index, row in enumerate(self.content):
@@ -59,26 +82,53 @@ class Table:
                         self.content[index][index2] = self.replace_empty
             while len(row) < max([len(i) for i in self.content]):
                 self.content[index].append(self.replace_empty)
-
+        
+        if "row" in self.content:
+            while len(self.header["row"]) < len(self.content):
+                self.header["row"].append(self.replace_empty)
+        elif "col" in self.content:
+            while len(self.header["col"] < max([len(i) for i in self.content])):
+                self.header["col"].append(self.replace_empty)
 
     def get_content(self):
         return self.content
     
+    def get_header(self):
+        return self.header
+
     def get_row(self, row):
-        return self.content[row]
-    
+        try:
+            return self.content[row]
+        except IndexError:
+            raise Exception(f"IndexError: row '{row}' does not exist")
+        
     def get_column(self, column):
-        return [i[column] for i in self.content]
+        try:
+            return [i[column] for i in self.content]
+        except IndexError:
+            raise Exception(f"IndexError: column '{column} does not exist'")
     
     def get_cell(self, row, column):
-        return self.content[row][column]
+        try:
+            return self.content[row][column]
+        except IndexError:
+            raise Exception(f"IndexError: cell '{row}x{column}' does not exist")
     
     def replace_content(self, content):
-        self.content = content
+        if type(content) is list and type(content[0]) is list:
+            self.content = content
+        else:
+            raise Exception(f"ValueError: content has to be in a list format")
             
     def replace_column(self, index, content):
-        for row_index, i in enumerate(content):
-            self.content[row_index][index] = i
+        if type(content) is list and type(content[0]) is list:
+            try:
+                for row_index, i in enumerate(content):
+                    self.content[row_index][index] = i
+            except IndexError:
+                raise Exception(f"IndexError: column '{index}' does not exist")
+        else:
+            raise Exception(f"ValueError: content has to be in a list format")
 
     def replace_row(self, index, content):
         self.content[index] = content
@@ -153,16 +203,18 @@ class Table:
         if header_type in self.header:
             del self.header[header_type]
 
-    def use_row_as_header(self, row):
+    def use_row_as_header(self, row=0):
         self.replace_header("row", self.get_row(row))
         self.remove_row(row)
     
-    def use_column_as_header(self, column):
+    def use_column_as_header(self, column=0):
         self.replace_header("col", self.get_column(column))
         self.remove_column(column)
     
     def display(self):
         
+        self.clean_data()
+
         self.rows = len(self.content)
         self.columns = 0
         for row in self.content:
@@ -217,7 +269,7 @@ class Table:
 
         if self.same_sized_cols:
             self.max_chars = [max(self.max_chars) for i in self.max_chars]
-
+        
         column_index = 0  
         print("╔", end="")
         for column in self.max_chars:
@@ -336,6 +388,5 @@ class Table:
             row_index += 1
 
 table = Table([[1], [1, 2, 3], [1, 2]])
-table.clean_data()
-table.use_row_as_header(0)
+table.use_column_as_header()
 table.display()
